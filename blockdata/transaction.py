@@ -28,4 +28,15 @@ class Transaction:
 
     def loadjson(self, j):
         d = json.loads(j)
+        s = Transaction(d.get('sender'),
+        d.get('receiver'),
+        d.get('amount'),
+        d.get('fee', 0),
+        d.get('freez',0))
+        # self.sender = d.get('sender')
+        # self.receiver = d.get('receiver')
+        # self.amount = d.get('amount')
+        # self.fee = d.get('fee')
+        # self.freez = d.get('freez')
+        return s
         
