@@ -12,6 +12,7 @@ class Transaction:
         self.amount = amount
         self.fee = fee
         self.freez = freez
+        self.cat = 'tx'
     
     def todict(self):
         self.dict = {}
@@ -20,6 +21,7 @@ class Transaction:
         self.dict['amount'] = self.amount
         self.dict['fee'] = self.fee
         self.dict['freez'] = self.freez
+        self.dict['cat'] = self.cat
         return self.dict
 
     def tojson(self):
@@ -42,6 +44,7 @@ class Bid:
         self.sender = sender
         self.amount = 10000 * 1000 + amount * 1000
         self.no = no
+        self.cat = 'bi'
     
     def todict(self):
         # return a dict
@@ -49,6 +52,7 @@ class Bid:
         self.dict['sender'] = self.sender
         self.dict['no'] = self.no
         self.dict['amount'] = self.amount
+        self.dict['cat'] = self.cat
         return self.dict
 
 class Redeem:
@@ -58,6 +62,7 @@ class Redeem:
         self.tk = tk
         self.no = no
         self.amount = 10000 * 1000 + amount * 1000
+        self.cat = 'rd'
     
     def todict(self):
         #return a dict
@@ -65,6 +70,7 @@ class Redeem:
         self.dict['receiver'] = self.receiver
         self.dict['tk'] = self.tk
         self.dict['amount'] = self.amount
+        self.dict['cat'] = 'rd'
         return self.dict
 
 class Reward:
@@ -74,6 +80,7 @@ class Reward:
         self.no = no
         self.receiver = receiver
         self.y = y
+        self.cat = 'rw'
 
     def todict(self):
         # return a dict
@@ -83,5 +90,62 @@ class Reward:
         self.dict['receiver'] = self.receiver
         self.dict['y'] = self.y
         self.dict['amount'] = self.amount
+        self.dict['cat'] = self.cat
         return self.dict
     
+def bulkloadjson(j):
+    # load any txs and return a list of them
+    d = json.loads(j)
+    result = []
+    for e in d:
+        r = loadjson(e)
+        result.append(r)
+    return result
+
+
+def loadjson(j):
+    
+    try:
+        e = json.loads(j)
+        tp = e.get('cat', 0)
+        if tp == 'tx':
+            # return a tx
+            tx = Transaction(e.get('sender'), e.get('receiver'), 
+            e.get('amount'), e.get('fee'), e.get('freez'))
+            return tx
+
+        elif tp == 'bi':
+            # return a bid
+            bi = Bid(
+                e.get('sender'),
+                e.get('no'),
+                e.get('amount')
+            )
+            return bi
+        
+        elif tp == 'rd':
+            # return a redeem
+            rd = Redeem(
+                e.get('receiver'),
+                e.get('no'),
+                e.get('tk'),
+                e.get('amount')
+            )
+            return rd
+        
+        elif tp == 'rw':
+            # return a reward
+            rw = Reward(
+                e.get('amount'),
+                e.get('receiver'),
+                e.get('y'),
+                e.get('no'),
+                e.get('ratio')
+            )
+            return rw
+        else:
+            raise ValueError('no cat')
+    except:
+        raise ValueError('json key')
+    
+    raise ValueError('json')

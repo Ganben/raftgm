@@ -4,16 +4,27 @@
 
 class Block:
 
-    def __init__(self, no):
+    def __init__(self, no, tks, miner = 0):
+        self.miner = miner
         self.no = no
         self.txs = []
-        self.rdtx = []
+        self.rds = []
+        self.bis = []
+        self.rws = []
+        self.tks = tks
         # self.tokenpool =Tkpool()
     def addtx(self, tx):
         self.txs.append(tx)
     
-    def addrdtx(self, rdtx):
-        self.rdtx.append(rdtx)
+    def addrd(self, rd):
+        self.rds.append(rd)
+
+    def addbi(self, bi):
+        self.bis.append(bi)
+        if len(self.rds) == len(self.bis):
+            return False
+        else:
+            return 
 
     def updatetkpool(self, tkpool):
         self.tkpool = tkpool
