@@ -1,6 +1,6 @@
 #encoding=utf-8
 # AaronCao
-# broker for snake mq
+# broker for snake mq #I give up, no, try another one
 
 import snakemq.link
 import snakemq.packeter
