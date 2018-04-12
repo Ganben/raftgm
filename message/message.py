@@ -10,9 +10,10 @@ from commands import Command
 
 class Messager:
     # protocol for RPCs and abstract command
-    def __init__(self):
+    def __init__(self, addr):
         # self.cmd = cmd
         # self.data = data
+        self.addr = addr
         self.mqttclient =mqtt.Client
         self.mqttclient.on_connect = self.on_connect
         # self.mqttclient.on_message = self.on_message
@@ -24,7 +25,12 @@ class Messager:
 
     def on_connect(self, client, userdata, flags, rc):
         # on connect broad self id
-        pass
+        # pass
+        p = str(self.addr)
+        client.subscribe('SYNC')
+        client.subscribe('BROD')
+        client.subscribe('TXSS')
+        client.publish('node', p)
 
     def on_message(self, client, userdata, msg):
         # handling incomming message
@@ -62,6 +68,14 @@ class Message:
             # request sync data
             pass
     
-    def send(self):
+    def send(self, client):
         # complet 
-        pass
+        if self.cmd == Command.BROD:
+            return client.publish("BROD", self.data)
+        elif self.cmd == Command.TXSS:
+            return client.publish("TXSS", self.data)
+        elif self.cmd == Command.SYNC:
+            return client.publish("SYNC", self.data)
+        else:
+            return False
+            
