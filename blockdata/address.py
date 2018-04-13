@@ -12,5 +12,5 @@ class Address:
         self.address = i
     
     def getvalue(self):
-        return self.address
+        return str(self.address)
     

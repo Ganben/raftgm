@@ -1,6 +1,7 @@
 #encoding=utf-8
 # AaronCao
 # Block object
+import json
 
 class Block:
 
@@ -30,3 +31,33 @@ class Block:
         self.tkpool = tkpool
     
     # funcs for fake tkpool and rdtx for malicious miner
+
+    def todict(self):
+        # serialization
+        pass
+
+    def tojson(self):
+        # serilization
+        d = {}
+        d['head'] = {
+            'no': self.no,
+            'miner': self.miner
+        }
+        ltks = []
+        for e in self.tks:
+            ltks.append(e.todict)
+        lbids = []
+        for e in self.bis:
+            lbids.append(e.todict)
+        lrds = []
+        for e in self.rds:
+            lrds.append(e.todict)
+        lrws = []
+        for e in self.rws:
+            lrws.append(e.todict)
+        d['tks'] = ltks
+        d['bis'] = lbids
+        d['rds'] = lrds
+        d['rws'] = lrws
+        return json.dumps(d)
+        

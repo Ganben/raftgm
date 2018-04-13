@@ -54,6 +54,10 @@ class Bid:
         self.dict['amount'] = self.amount
         self.dict['cat'] = self.cat
         return self.dict
+    
+    def tojson(self):
+        # self.todict()
+        return json.dumps(self.todict)
 
 class Redeem:
     def __init__(self, receiver, no=0, tk=0, amount = 0):
@@ -72,6 +76,10 @@ class Redeem:
         self.dict['amount'] = self.amount
         self.dict['cat'] = 'rd'
         return self.dict
+
+    def tojson(self):
+        # self.todict()
+        return json.dumps(self.todict)
 
 class Reward:
     def __init__(self, amount, receiver, y=1, no=0, ratio = 0.5):
@@ -92,7 +100,11 @@ class Reward:
         self.dict['amount'] = self.amount
         self.dict['cat'] = self.cat
         return self.dict
-    
+        
+    def tojson(self):
+        # self.todict()
+        return json.dumps(self.todict)
+
 def bulkloadjson(j):
     # load any txs and return a list of them
     d = json.loads(j)
