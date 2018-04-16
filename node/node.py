@@ -35,4 +35,6 @@ class Node:
         m = Message(Command.BROD, self.currentblock.tojson)
         return m
 
-    
+    def syncdata(self, block):
+        # block is a obj
+        pass
